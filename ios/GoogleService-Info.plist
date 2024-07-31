@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1012381532710-na6d222vcucgarp9vtd59nshtnl418ak.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1012381532710-na6d222vcucgarp9vtd59nshtnl418ak</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>1012381532710-mvk2purnpou41dkuuridcs4t4801sith.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB4IiJ7-RLQuovoGa_sj5HaBNBZ5vPYzT0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1012381532710</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.loyalty.app</string>
+	<key>PROJECT_ID</key>
+	<string>loyaltyapp-ac951</string>
+	<key>STORAGE_BUCKET</key>
+	<string>loyaltyapp-ac951.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1012381532710:ios:d2b3a95c4eeb66db451ce7</string>
+</dict>
+</plist>

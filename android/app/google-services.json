@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1012381532710",
+    "project_id": "loyaltyapp-ac951",
+    "storage_bucket": "loyaltyapp-ac951.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1012381532710:android:b19edeaf380534e7451ce7",
+        "android_client_info": {
+          "package_name": "com.loyalty"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1012381532710-mvk2purnpou41dkuuridcs4t4801sith.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.loyalty",
+            "certificate_hash": "c98c2d53a24a8832d69e50872b044c7829a920ae"
+          }
+        },
+        {
+          "client_id": "1012381532710-h5bc5l2v8j3od4h2gea5gg25qctorqin.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCi5rjgnQ0EheQa8Ew-N7t0GrzIltAL7Rk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1012381532710-h5bc5l2v8j3od4h2gea5gg25qctorqin.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1012381532710-5jkkdgeoia25udj5m8gn2cjh8dtmekgt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "abcdEF",
+                "app_store_id": "1234567"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
