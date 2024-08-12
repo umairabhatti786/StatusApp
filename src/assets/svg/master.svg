@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="29.811" height="17.867" viewBox="0 0 29.811 17.867">
-  <g id="Group_118" data-name="Group 118" transform="translate(-53 -939.706)">
-    <g id="Left" transform="translate(5 415)">
-      <ellipse id="Oval" cx="9.041" cy="8.933" rx="9.041" ry="8.933" transform="translate(48 524.707)" fill="#ed0006"/>
-      <ellipse id="Oval_Copy" data-name="Oval Copy" cx="9.041" cy="8.933" rx="9.041" ry="8.933" transform="translate(59.729 524.707)" fill="#ed0006"/>
-    </g>
-    <path id="Right" d="M68.77,542.573a9.108,9.108,0,0,1-5.865-2.134,8.866,8.866,0,0,0,0-13.6,9.108,9.108,0,0,1,5.865-2.134,8.934,8.934,0,1,1,0,17.867Z" transform="translate(5 415)" fill="#f9a000"/>
-  </g>
-</svg>

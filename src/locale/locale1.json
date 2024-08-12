@@ -1,9 +1,0 @@
-{
-
-
-    "login_screen_phone_number_required_validation":"The Phone Number field is required.",
-    "login_screen_phone_number_invalid":"Invalid phone number.",
-    "general_alert_title":"Alert!",
-    "general_alert_description":"Something went wrong"
-
-}

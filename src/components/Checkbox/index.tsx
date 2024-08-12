@@ -1,51 +1,39 @@
-import { Image, Pressable, Text, TouchableOpacity, View } from "react-native";
-import { images } from "../../assets";
-import { colors } from "../../utils/colors";
-import { isiPad } from "../../utils/CommonFun";
+import React from 'react'
+import { colors } from '../../utils/colors'
+import { View ,TouchableOpacity,Image} from 'react-native'
+import { images } from '../../assets/images'
 
-type Props = {
-  isChecked: any;
-  onPress?:any
-  disabled?:any
-  backgroundColor?:any
-};
+type Props = {}
 
-const Checkbox = ({ isChecked,onPress,disabled,backgroundColor }: Props) => {
-  return (
-    <TouchableOpacity
-    disabled={disabled}
-      style={{ height: 20, width: 20, justifyContent: "center" }}
-      activeOpacity={0.6}
-      onPress={onPress}
-    >
-      <View
-        style={{
-          width:  isiPad?25: 21,
-          height: isiPad?25: 21,
-          borderWidth: 1.5,
-          borderColor: colors.primary,
-          borderRadius: 4,
-          backgroundColor:isChecked ?colors.primary: backgroundColor|| colors.white,
-          justifyContent: "center",
-          alignItems: "center",
-          padding: 3,
-        }}
-      >
-        {
-          isChecked&&(
-            <Image
-            resizeMode="contain"
-            style={{ width: 14, height: 14, tintColor: colors.white }}
-            source={images.tick}
-          />
+const CheckBox = ({isRemember,setIsRemember}:any) => {
+    return (
+        <TouchableOpacity
+        activeOpacity={0.6}
+        onPress={()=>setIsRemember(!isRemember)}
+          style={{
+            width: 21,
+            height: 21,
+            borderRadius: 5,
+            borderWidth: 2,
+            borderColor: colors.white,
+            alignItems: "center",
+            justifyContent: "center",
 
-          )
-        }
-       
+          }}>
+            {
+              isRemember&&(
+                <Image
+                style={{ width: 10, height: 10, alignSelf: "center" }}
+                source={images.tick}
+                resizeMode="contain"
+              />
+
+              )
+            }
         
-        
-      </View>
-    </TouchableOpacity>
-  );
-};
-export default Checkbox;
+         
+        </TouchableOpacity>
+    )
+}
+
+export default CheckBox

@@ -2,7 +2,6 @@ import { BlurView, VibrancyView } from '@react-native-community/blur';
 import React from 'react';
 import { ScrollView, Text, useWindowDimensions, SafeAreaView, View, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
 import Modal from 'react-native-modal';
-import { colors } from '../../utils/colors';
 
 interface Props {
     isModalVisible?: boolean;
@@ -11,17 +10,18 @@ interface Props {
     backdropStyle?: any
     paddingTop?:any
     justifyContent?:any
-    onbackDropPress?:any
+    modalBackgroundColor?:any
 }
 
-const CustomModal: React.FC<Props> = ({ isModalVisible, setModalVisible, children, backdropStyle,justifyContent,paddingTop,onbackDropPress }) => {
+const CustomModal: React.FC<Props> = ({ isModalVisible, setModalVisible, children, backdropStyle,justifyContent,paddingTop,modalBackgroundColor }) => {
     const windowWidth = useWindowDimensions().width;
 
     return (
         <Modal
             style={{...styles.modalContainer,
                 justifyContent: justifyContent ||"flex-start",
-                paddingTop:paddingTop || "40%"
+                paddingTop:paddingTop || "50%",
+                backgroundColor:modalBackgroundColor
             }}
             animationIn='slideInUp'
             animationOut='slideOutDown'
@@ -32,40 +32,15 @@ const CustomModal: React.FC<Props> = ({ isModalVisible, setModalVisible, childre
             backdropColor='transparent'
             customBackdrop={
 
-                <BlurView
-                    blurAmount={100}
-                    blurRadius={15}
-                    blurType="light"
-                    style={{
-                        flex: 1,
-                        opacity: 1,
-                        backgroundColor: colors.offWhite,
-                        ...backdropStyle
-                    }} >
+               
                     <Pressable
                         style={{ height: "100%", width: "100%" }}
                         onPress={
                             () =>
-                            {
-                                if(onbackDropPress){
-                                    onbackDropPress()
-    
-                                    return
-                                }
                                 setModalVisible?.(false)
-
-                            }
-                           
-
                         }
-                        // onPress={
-                        //     () =>
-
-                        //         setModalVisible?.(false)
-                        // }
                     >
                     </Pressable>
-                </BlurView>
             }
         >
             {children}

@@ -1,377 +1,343 @@
 import React, { useEffect, useState } from "react";
 import {
   Alert,
-  Image,
-  Platform,
-  SafeAreaView,
-  ScrollView,
+  LogBox,
   StyleSheet,
-  TouchableOpacity,
   View,
+  Text,
+  SafeAreaView,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  ImageBackground,
 } from "react-native";
-import LogoContainer from "../../../components/LogoContainer";
-import CustomText from "../../../components/CustomText";
-import { colors } from "../../../utils/colors";
-import { font } from "../../../utils/font";
-import LoginForm from "./LoginForm";
-import SsoAuth from "../../../components/SsoAuth";
-import { isiPad, sessionCheck, windowHeight } from "../../../utils/CommonFun";
+import { appStyles } from "../../../utils/AppStyles";
+
+import { useNavigation } from "@react-navigation/native";
+import { images } from "../../../assets/images";
 import { Spacer } from "../../../components/Spacer";
+import CustomButton from "../../../components/CustomButton";
+import { colors } from "../../../utils/colors";
+import CustomText from "../../../components/CustomText";
+import CustomTextInput from "../../../components/CustomTextInput";
+import CheckBox from "../../../components/CheckBox";
+import { scale, verticalScale } from "react-native-size-matters";
+import { windowHeight, windowWidth } from "../../../utils/Dimensions";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { NotificationServices } from "../../../utils/hooks/NotificationServices";
-import { URLS } from "../../../api/urls";
-import { ApiServices } from "../../../api/ApiServices";
-import ScreenLoader from "../../../components/ScreenLoader";
-import { Snackbar } from "react-native-paper";
-import { StorageServices } from "../../../utils/hooks/StorageServices";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  getReferralLinkId,
-  setEmptyReferralLinkId,
-  setIsRemember,
-  setOpt,
-  setPhoneNumber,
-  setReferralLinkId,
-  setUserData,
-} from "../../../redux/reducers/authReducer";
+import Input from "../../../components/Input";
+import Button from "../../../components/Button";
+import NewText from "../../../components/NewText";
+import { emailRegex } from "../../../utils/Regex";
 import CustomToast from "../../../components/CustomToast";
-import AbsoluteView from "../../../components/AbsoluteView";
-import { getLocalizeFile } from "../../../redux/reducers/localizeReducer";
-import { checkDynamicLink } from "../../../utils/hooks/FirebaseServices";
-import dynamicLinks from "@react-native-firebase/dynamic-links";
-import { images } from "../../../assets";
-import { CommonActions } from "@react-navigation/native";
+import { UserLogin } from "../../../api/ApiServices";
+import Loader from "../../../components/Loader";
+import { useDispatch } from "react-redux";
+import { AUTH, REMEMBER, StorageServices, TOKEN } from "../../../utils/hooks/StorageServices";
+import { setRemember, setToken, setUserData } from "../../../redux/reducers/authReducer";
+import OneSignal from "react-native-onesignal";
 
-const Login = ({ navigation, route }: any) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState("");
-  const [isMessage, setIsMessage] = useState(false);
-  const [remember, setRemember] = useState<any>(true);
-  const [disable, setDisable] = useState(false);
-  const isLogut = route?.params?.isLogut;
-  console.log("isLogut", isLogut);
-  const [formattedNumber, setFormattedNumber] = useState("");
-  const referralId = useSelector(getReferralLinkId);
-  // const [referralId, setReferralId] = useState<string>("");
-  const dispatch = useDispatch();
-  let localize: any = useSelector(getLocalizeFile);
+const Login = () => {
+  const navigation: any = useNavigation();
+  const [isRemember, setIsRemember] = useState(true);
+  const [showPassword, setShowPAssword] = useState(true);
+  const [showError, setShowError] = useState(false);
+  const [toastColor,setToastColor]=useState(colors.red)
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
+  const dispatch=useDispatch()
   const [values, setValues] = useState({
-    phone: "",
-    password: "",
-    countryFlag: "",
-  });
-  const [error, setError] = useState({
-    phoneError: "",
+    email: "",
     password: "",
   });
 
-  useEffect(() => {
-    dynamicLinks().onLink(handleDynamicLink);
-  }, [dynamicLinks]);
+  const onLogin = async () => {
+    let deviceState = await OneSignal.getDeviceState();
 
-  useEffect(() => {
-    checkReferralLink();
-  }, []);
+    if (!values?.email) {
+      setError("Email is required");
+      setShowError(true);
+      setTimeout(() => {
+        setShowError(false);
+      }, 4000);
 
-  const handleDynamicLink = (link: any) => {
-    if (link?.url) {
-      const id: any = link.url?.split("=").pop();
-      dispatch(setReferralLinkId(id));
+      return;
     }
-  };
+    let isValidEmail = emailRegex?.test(values.email);
+    if (!isValidEmail) {
+      setError("Invalid email address");
+      setShowError(true);
+      setTimeout(() => {
+        setShowError(false);
+      }, 4000);
 
-  const checkReferralLink = async () => {
-    let link: any = await checkDynamicLink();
-    dispatch(setReferralLinkId(link));
-  };
-
-  const handleAppSooAuth = async (data: any, authWith: string) => {
-    setDisable(true);
-    const deviceState = await NotificationServices.getDeviceStatus();
-    const formData = new FormData();
-    setIsLoading(true);
-    if (authWith == "apple") {
-      const { email, fullName, user } = data;
-      console.log("dataApple", data);
-      let name =
-        fullName?.givenName !== null
-          ? fullName?.givenName
-          : "" + " " + fullName?.familyName !== null
-          ? fullName?.familyName
-          : "";
-      formData.append("entity_uuid", URLS.ENTITY_UID);
-      formData.append("login_type", authWith);
-      formData.append("device_id", deviceState?.userId);
-      formData.append("email", data?.email ? data?.email : "");
-      formData.append("sso_token", user);
-      formData.append("name", name ? name : "");
-      formData.append("referral", referralId);
-    } else if (authWith == "google") {
-      formData.append("entity_uuid", URLS.ENTITY_UID);
-      formData.append("login_type", authWith);
-      formData.append("device_id", deviceState?.userId);
-      formData.append("email", data?.user.email);
-      formData.append("sso_token", data?.user?.id);
-      formData.append("name", data.user?.name);
-      formData.append("img_url", data?.user?.photo);
-      formData.append("referral", referralId);
-    } else {
-      formData.append("entity_uuid", URLS.ENTITY_UID);
-      formData.append("login_type", authWith);
-      formData.append("device_id", deviceState?.userId);
-      formData.append("phone", "+1"+values.phone);
-      formData.append("email", "");
-      formData.append("sso_token", data.user?.id);
-      formData.append("name", "");
-      formData.append("img_url", "");
-      formData.append("referral", referralId);
+      return;
     }
-    console.log("appleFormData",formData)
-    ApiServices.authenticate(formData, async ({ isSuccess, response }: any) => {
-      setIsLoading(false);
+
+    if (!values?.password) {
+      setError("password is required");
+      setShowError(true);
+      setTimeout(() => {
+        setShowError(false);
+      }, 4000);
+      return;
+    }
+    if (values?.password.length < 6) {
+      setError("password At least 6 characters");
+      setShowError(true);
+      setTimeout(() => {
+        setShowError(false);
+      }, 4000);
+      return;
+    }
+    setLoading(true);
+    const data = {
+      email: values.email,
+      password: values.password,
+      deviceId: deviceState?.userId,
+
+    };
+
+    UserLogin(data, async ({ isSuccess, response }: any) => {
       if (isSuccess) {
         let result = JSON.parse(response);
-        if (result?.success) {
-          setIsLoading(false);
-          if (
-            !result?.data?.phone ||
-            !result?.data?.email ||
-            !result.data.phone
-          ) {
-            if (authWith == "phone") {
-              setIsLoading(false);
-              setMessage(result?.message);
-              setIsMessage(true);
-              dispatch(setEmptyReferralLinkId(null));
-              dispatch(setIsRemember(remember));
-              dispatch(setPhoneNumber("+1" + values.phone));
-              dispatch(setOpt(result?.data?.otp_code));
-              setTimeout(() => {
-                setIsMessage(false);
-                setDisable(false);
-                navigation.navigate("Otp", {
-                  data: result?.data,
-                  phone: values.phone,
-                });
-              }, 500);
-            } else {
-              dispatch(setIsRemember(remember));
-              setIsLoading(false);
-              setMessage(result?.message);
-              if (result?.message) {
-                setIsMessage(true);
-              }
-              setTimeout(() => {
-                setIsMessage(false);
-                setDisable(false);
-                dispatch(setEmptyReferralLinkId(null));
+        console.log("ckdnckdnc", result);
 
-                navigation.navigate("CompleteProfile", {
-                  data: result?.data,
-                  authWith: authWith,
-                });
-              }, 500);
-            }
-          } else {
-            if (remember) {
-              StorageServices.setItem("userData", result?.data);
-            }
-            setIsLoading(false);
-            setDisable(false);
-            setMessage(result?.message);
-            setIsMessage(true);
-            setTimeout(() => {
-              setIsMessage(false);
-              setDisable(false);
-              dispatch(setUserData(result?.data));
-
-              dispatch(setEmptyReferralLinkId(null));
-              navigation.dispatch(
-                CommonActions.reset({
-                  index: 0,
-                  routes: [{name: 'Home'}],
-                }),
-              );
-              // navigation.navigate("Home");
-            }, 500);
-          }
-        } else {
-          setIsLoading(false);
-          setDisable(false);
-          if (result?.app_update_status == 1 || result?.session_expire) {
-            sessionCheck(
-              result?.app_update_status,
-              result?.session_expire,
-              dispatch
-            );
-            return;
-          }
-
-          setMessage(result?.message);
-          setIsMessage(true);
+        if (result.status) {
+          setLoading(false);
+          setError(result.msg);
+          setToastColor(colors.green)
+          setShowError(true);
           setTimeout(() => {
-            setIsMessage(false);
-            setMessage("");
+            setShowError(false);
+            setToastColor(colors.red)
+            StorageServices.setItem(AUTH,result?.user)
+            StorageServices.setItem(TOKEN,result?.token)
+            StorageServices.setItem(REMEMBER,isRemember)
+
+            dispatch(setToken(result?.token))
+            dispatch(setRemember(isRemember))
+
+            console.log("ResulatTokencbcb",result?.user,result?.token)
+
+            dispatch(setUserData(result?.user))
+            navigation.navigate("Tabs", {
+      
+            });
+
+
+            // navigation.navigate("ConfirmationCode", {
+            //   data: { email: values.email },
+            // });
           }, 2000);
+        } else {
+          if (result.error) {
+            setLoading(false);
+
+            setError(result?.error);
+            setToastColor(colors.red)
+
+            setShowError(true);
+            setTimeout(() => {
+              setShowError(false);
+              setToastColor(colors.red)
+
+            }, 4000);
+          } else {
+            setLoading(false);
+            setError(result?.msg);
+            setToastColor(colors.red)
+
+            setShowError(true);
+            setTimeout(() => {
+              setShowError(false);
+              setToastColor(colors.red)
+
+            }, 4000);
+          }
         }
       } else {
-        setIsLoading(false);
-        setDisable(false);
+        setLoading(false);
 
-        Alert.alert(`${localize?.something_went_wrong_generic_toast_title}`, `${localize?.something_went_wrong_generic_toast_description}`);
+        Alert.alert("Alert!", "Network Error.");
       }
     });
   };
+
   return (
     <>
-      <KeyboardAwareScrollView
+      {loading && <Loader />}
+      <Image 
+    source={images.lightBackground}
+    style={{
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width:windowWidth,
+    height:windowHeight,
+  }}
+    />
+        <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
-        style={{ backgroundColor: colors.white }}
-        extraScrollHeight={-100}
+        style={{ flex: 1, backgroundColor: "transparent"}}
+        // extraScrollHeight={-100}
       >
-        <SafeAreaView style={styles.inSideContainer}>
-          <TouchableOpacity
-            onPress={() => {
-              if (isLogut) {
-                navigation.dispatch(
-                  CommonActions.reset({
-                    index: 0,
-                    routes: [
-                      {
-                        name: "Home",
-                        params: { isLogut: true },
-                      },
-                    ],
-                  })
-                );
-
-                return;
-              }
-
-              navigation.goBack();
-            }}
-            style={styles.backButtonContainer}
-          >
+        <SafeAreaView style={{flex:1}}>
+          <View style={{ flex: 1, padding: scale(20) }}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Image source={images.back} />
+            </TouchableOpacity>
+            <Spacer height={verticalScale(10)} />
             <Image
-              source={images.backArrow}
+              style={{
+                width: windowWidth / 3.5,
+                height: windowHeight / 5.7,
+                alignSelf: "center",
+              }}
+              source={images.logo}
               resizeMode="contain"
-              style={isiPad ? styles.isPadBackArrowIcon : styles.backArrowIcon}
             />
-          </TouchableOpacity>
-          <View style={styles.container}>
-            <LogoContainer />
-          </View>
-          <View>
-            <View style={styles.heading}>
-              <CustomText
-                color={colors.primary}
-                text={localize?.signup_title}
-                numberOfLines={2}
-                size={isiPad ? 40 : 30}
-              />
-              <Spacer height={5} />
-              <CustomText
-                size={isiPad ? 15 : 12}
-                text={localize?.signup_desription}
-                style={styles.header}
-              />
+            {/* <Spacer height={10}/> */}
+            <CustomText
+              text={"Welcome back!"}
+              color={colors.white}
+              size={21}
+              style={{ textAlign: "center" }}
+              fontFam="Poppins-Medium"
+              fontWeight="500"
+            />
+            <Spacer height={10} />
+            <Input
+              label="Email Address"
+              value={values.email}
+              onChangeText={(txt: string) => {
+                setValues({ ...values, email: txt });
+              }}
+              placeholder="Enter your email address"
+            />
+
+            {/* <CustomTextInput
+          label="Email Address"
+          placeholder="Enter your login email address"
+        /> */}
+            <Spacer height={7} />
+            <Input
+              label="Password"
+              placeholder="Enter your password"
+              isPassword={showPassword}
+              value={values.password}
+              onChangeText={(txt: string) => {
+                setValues({ ...values, password: txt });
+              }}
+              onShowPassword={() => setShowPAssword(!showPassword)}
+              source={showPassword ? images.eyeclose : images.eye}
+            />
+            <Spacer height={verticalScale(10)} />
+
+            <View style={{...appStyles.rowjustify,paddingVertical:verticalScale(5)}}>
+              <TouchableOpacity
+              activeOpacity={0.6}
+              onPress={()=>setIsRemember(!isRemember)}
+               style={appStyles.row}>
+                <CheckBox
+                  isRemember={isRemember}
+                  setIsRemember={setIsRemember}
+                />
+
+                <Spacer width={scale(7)} />
+                <CustomText
+                  text={"Remember Me"}
+                  color={colors.white}
+                  size={13}
+                  style={{ textAlign: "center" }}
+                  fontFam="Poppins-Medium"
+                  fontWeight="500"
+                />
+              </TouchableOpacity>
             </View>
-            <View style={styles.form}>
-              <LoginForm
-                values={values}
-                localize={localize}
-                setIsRemember={setRemember}
-                isRemember={remember}
-                setFormattedNumber={setFormattedNumber}
-                setValues={setValues}
-                isLoading={isLoading}
-                error={error}
-                onPress={() => {
-                  if (values.phone.length == 0) {
-                    setMessage(localize?.login_phone_number_field_required_validation);
+            <Spacer height={verticalScale(10)} />
 
-                    setIsMessage(true);
+            <Button
+              text="SIGN IN"
+              width={"100%"}
+              onPress={onLogin}
+              fontWeight={"500"}
+              size={18}
+              textColor={colors.black}
+              bgColor={colors.white}
+            />
+            <Spacer height={verticalScale(25)} />
 
-                    setTimeout(() => {
-                      setIsMessage(false);
-                    }, 2000);
-
-                    return;
-                  }
-                  handleAppSooAuth("", "phone");
-                }}
-                setError={setError}
-                navigation={navigation}
+            <View style={{ height: 1, backgroundColor: colors.white }} />
+            <Spacer height={20} />
+            <View style={{ ...appStyles.row, justifyContent: "center" }}>
+              <NewText
+                text={"Don’t have an account ? "}
+                color={colors.white}
+                size={13}
+                style={{ textAlign: "center" }}
+                fontFam="Poppins-Medium"
+                fontWeight="500"
               />
+              <TouchableOpacity
+                onPress={() => navigation.navigate("FirstSignup")}
+                activeOpacity={0.6}
+              >
+                <NewText
+                  text={"Sign up"}
+                  color={colors.white}
+                  size={13}
+                  textDecorationLine={"underline"}
+                  style={{ textAlign: "center" }}
+                  fontFam="Poppins-Medium"
+                  fontWeight="500"
+                />
+              </TouchableOpacity>
             </View>
+
+            <Spacer height={verticalScale(8)} />
+            <TouchableOpacity
+            activeOpacity={0.6}
+            onPress={()=>navigation.navigate("LostPassword")}
+            >
+              <NewText
+                text={"Forgot password?"}
+                color={colors.white}
+                size={13}
+                style={{ textAlign: "center" }}
+                textDecorationLine={"underline"}
+                fontFam="Poppins-Medium"
+                fontWeight="500"
+              />
+            </TouchableOpacity>
           </View>
-          <Spacer height={"2%"} />
-          <SsoAuth
-            // disable={isLoading}
-            or={localize?.or}
-            loginWithGoogle={localize?.sign_in_with_google}
-            loginWidthApple={localize?.sign_in_with_apple}
-            handleSsoAuth={(data, authWith) => {
-              handleAppSooAuth(data, authWith);
-            }}
-          />
-          <Spacer height={10} />
         </SafeAreaView>
-        <Spacer height={40} />
-
       </KeyboardAwareScrollView>
 
-      <CustomToast
-        isVisable={isMessage}
-        setIsVisable={setIsMessage}
-        message={message}
-        color={colors.white}
-      />
+    
 
-      {isLoading && <ScreenLoader />}
+      {showError && (
+        <CustomToast
+          showError={showError}
+          setShowError={setShowError}
+          bgColor={toastColor}
+          text={error}
+        />
+      )}
     </>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    paddingVertical: isiPad ? "3.5%" : "0%",
-    // marginTop: Platform.OS == "ios" ? 20 : 30,
-    alignItems: "center",
-  },
-  inSideContainer: {
-    flex: 1,
-    backgroundColor: colors.white,
-    marginHorizontal: 30,
-    minHeight: windowHeight - 20,
-    justifyContent: "space-between",
-  },
-  heading: {
-    marginTop: 40,
-    alignItems: "flex-start",
-  },
-  header: {
-    marginLeft: 5,
-  },
-  form: {
-    marginVertical: 30,
-  },
+export default Login;
 
-  backButtonContainer: {
-    width: 50,
-    height: 80,
+const styles = StyleSheet.create({
+  checkBox: {
+    width: 21,
+    height: 21,
+    borderRadius: 5,
+    borderWidth: 2,
+    borderColor: colors.white,
+    alignItems: "center",
     justifyContent: "center",
   },
-  backArrowIcon: {
-    width: 32,
-    height: 32,
-  },
-
-  isPadBackArrowIcon: {
-    width: 50,
-    height: 50,
-  },
 });
-
-export default Login;

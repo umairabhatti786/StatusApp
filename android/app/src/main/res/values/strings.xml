@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Fri Chicks</string>
+    <string name="app_name">Status</string>
     <string name="facebook_app_id">371059782002541</string>
     <string name="fb_login_protocol_scheme">fb371059782002541</string>
     <string name="facebook_client_token">d25d58de5d417cc8777c53ffed30d577</string>

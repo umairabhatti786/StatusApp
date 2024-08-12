@@ -1,212 +1,209 @@
-import { Image, Video } from "react-native-compressor";
-
-import {
-  Alert,
-  Animated,
-  Dimensions,
-  Platform,
-  BackHandler,
-  Linking,
-} from "react-native";
-import { useRef } from "react";
-import { parse } from "htmlparser2";
-import { checkVersion } from "react-native-check-version";
-import { GoogleSignin } from "@react-native-google-signin/google-signin";
-import { useDispatch } from "react-redux";
-import { setUserData } from "../../redux/reducers/authReducer";
-import { setCartData, setEmptyCard } from "../../redux/reducers/cartReducer";
-import { DelIVERY_ADDRESS, SELECTED_PAYMENT_METHOD, StorageServices } from "../hooks/StorageServices";
-import DeviceInfo from "react-native-device-info";
-import { images } from "../../assets";
+import moment from "moment";
 
 export const isInteger = (value: number): boolean => {
-  return Number.isInteger(value);
-};
-export const newWidth = Dimensions.get("screen").width;
-export const newHeight = Dimensions.get("screen").height;
-export const windowHeight = Dimensions.get("window").height;
-export const windowWidth = Dimensions.get("window").width;
-export const isiPad = DeviceInfo.getModel().includes("iPad");
-export const dollarSymbol = "$";
-// export const dispatch=useDispatch()
-export const splitName = (x: string): string[] => {
-  const name = x?.split(" ");
-  const firstName = name?.length > 0 ? name[0] : "";
-  const restOfName = name?.slice(1).join(" ");
-  return [firstName, restOfName];
-};
-
-export const debounce = <T extends (...args: any[]) => void>(
-  func: T,
-  delay: number
-) => {
-  let timeoutId: NodeJS.Timeout;
-
-  return (...args: Parameters<T>) => {
-    clearTimeout(timeoutId);
-
-    timeoutId = setTimeout(() => {
-      func(...args);
-    }, delay);
-  };
-};
-
-export const isCloseToBottom = ({
-  layoutMeasurement,
-  contentOffset,
-  contentSize,
-}: any) => {
-  const paddingToBottom = 20;
-  return (
-    layoutMeasurement?.height + contentOffset?.y >=
-    contentSize?.height - paddingToBottom
-  );
-};
-
-export const compressImage = async (uri: any) => {
-  let result;
-  result = await Image.compress(
-    uri,
-    {
-      compressionMethod: "manual",
-      quality: 0.3,
-    },
-    (progress) => {
-      if (progress) {
-        console.log("CompressStoryImage", progress);
-      }
-    }
-  );
-
-  return result;
-};
-
-export const getLastTenDigitsFromNumber = (number: any) => {
-  // Convert the number to a string to handle large numbers
-  const numberString = Math.abs(number).toString();
-
-  // Use slice to get the last ten digits
-  const lastTenDigits = numberString.slice(-10);
-
-  return lastTenDigits;
-};
-export const convertTo12HourFormat = (time24h: any) => {
-  // Parse the time string to extract hours and minutes
-  const [hours, minutes] = time24h.split(":");
-
-  // Convert hours to 12-hour format
-  let hours12 = parseInt(hours, 10) % 12 || 12;
-
-  // Determine AM/PM
-  const modifier = parseInt(hours, 10) < 12 ? "AM" : "PM";
-
-  // Return the time in 12-hour format
-  return `${hours12}:${minutes} ${modifier}`;
-};
-
-
-export const getRewardBadge = (points:any,data:any) => {
-  console.log("dataponfnfn",data)
-  if (points >= data.tier_platinum_points) {
-    return images.platinum_reward; // Platinum
-  } else if (points >= data.tier_gold_points) {
-    return images.gold_reward // Gold
-  } else if (points >= data.tier_silver_points) {
-    return images.silver_reward; // Silver
-  } else if (points >= data.tier_bronze_points) {
-    return images.bronze_reward; // Bronze
-  } else {
-    return false; // Default color (black)
-  }
+    return Number.isInteger(value);
 }
 
-// const blinkAnim = useRef(new Animated.Value(0)).current;
 
-export const startBlinking = (blinkAnim: any) => {
-  Animated.loop(
-    Animated.sequence([
-      Animated.timing(blinkAnim, {
-        toValue: 1,
-        duration: 500,
-        useNativeDriver: false,
-      }),
-      Animated.timing(blinkAnim, {
-        toValue: 0,
-        duration: 500,
-        useNativeDriver: false,
-      }),
-    ])
-  ).start();
-
-  // Stop the blinking after 5 seconds
-  setTimeout(() => {
-    blinkAnim.stopAnimation();
-    blinkAnim.setValue(0); // Reset to initial value
-  }, 200); // Duration in milliseconds
-};
-
-export const extractTextFromHTML = (html:any) => {
-  let text = "";
-  const parser = new parse.Parser(
-    {
-      ontext(data:any) {
-        text += data;
-      },
-    },
-    { decodeEntities: true }
-  );
-  parser.write(html);
-  parser.end();
-  return text;
-};
-
-export const sessionCheck = async (appUpdateStatus: any,session_expire:any,dispatch:any) => {
-  if (appUpdateStatus == 1) {
-    const version = await checkVersion();
-    console.log("version",version)
-    {
-      Alert.alert(
-        "Updates",
-        "Please ensure the app is updated to access its latest features.",
-        [
-          {
-            text: "update",
-            onPress: () => {
-              // BackHandler.exitApp();
-              // Linking.openURL(version?.url);
-            },
-          },
-        ],
-        { cancelable: false }
-      );
-    }
-    return
+export function capitalizeFirstLetter(str) {
+    return str?.split(' ').map(word => {
+      return word?.charAt(0)?.toUpperCase() + word?.slice(1);
+    })?.join(' ');
   }
-  if(session_expire){
 
-        Alert.alert(
-      "Session Expired",
-      "Your session has expired. Please login again.",
-      [
-        {
-          text: "OK",
-          onPress: async () => {
-            const isSignedIn = await GoogleSignin.isSignedIn();
-            if (isSignedIn) {
-              await GoogleSignin.signOut();
-            }
-            dispatch(setUserData(null));
-            dispatch(setEmptyCard([]));
-            StorageServices.removeItems("userData");
-            StorageServices.removeItems(SELECTED_PAYMENT_METHOD);
-            StorageServices.removeItems(DelIVERY_ADDRESS);
 
-          },
-        },
-      ]
-    );
+  export const dateFormat = date => {
+    const now = moment();
+    const inputDate = moment(date);
+  
+    if (now.isSame(inputDate, 'day')) {
+      // Same day: show time difference
+      const duration = moment.duration(now.diff(inputDate));
+      const hours = duration.hours();
+      const minutes = duration.minutes();
+      console.log("hours",hours)
+  
+      if (hours > 0) {
+        return `${hours}h ago`;
+      }
+      if (minutes > 0) {
+        return `${minutes}m ago`;
+      }
+      return 'few second ago';
+    }
+  
+    if (now.diff(inputDate, 'days') === 1) {
+      // Yesterday: show "Yesterday"
+      return 'Yesterday';
+    }
+  
+    if (now.diff(inputDate, 'days') < 7) {
+      // Within the last week: show day of the week
+      return inputDate.format('dddd');
+    }
+  
+    // Older than a week: show date
+    return inputDate.format('DD MMM YY');
+  };
+
+
+ export const formatTimeDifference = (date) => {
+    const now = moment();
+    const inputDate = moment(date);
+  
+    const diffInSeconds = now.diff(inputDate, 'seconds');
+    const diffInMinutes = now.diff(inputDate, 'minutes');
+    const diffInHours = now.diff(inputDate, 'hours');
+    const diffInDays = now.diff(inputDate, 'days');
+    const diffInWeeks = now.diff(inputDate, 'weeks');
+    const diffInMonths = now.diff(inputDate, 'months');
+    const diffInYears = now.diff(inputDate, 'years');
+    if (diffInSeconds == 0) {
+      return `1s ago`;
+    }
+  
+    if (diffInSeconds < 60) {
+      return `${diffInSeconds}s ago`;
+    }
+     else if (diffInMinutes < 60) {
+      return `${diffInMinutes}m ago`;
+    } else if (diffInHours < 24) {
+      return `${diffInHours}h ago`;
+    } else if (diffInDays === 1) {
+      return `1d ago`;
+    } else if (diffInDays < 7) {
+      return `${diffInDays}d ago`;
+    } else if (diffInWeeks < 4) {
+      return `${diffInWeeks}w ago`;
+    } else if (diffInMonths < 12) {
+      return `${diffInMonths}mo ago`;
+    } else {
+      return `${diffInYears}y ago`;
+    }
+  };
+
+  export const StatusUpdatesFormatTimeDifference = (date) => {
+    const now = moment();
+    const inputDate = moment(date);
+  
+    const diffInSeconds = now.diff(inputDate, 'seconds');
+    const diffInMinutes = now.diff(inputDate, 'minutes');
+    const diffInHours = now.diff(inputDate, 'hours');
+    const diffInDays = now.diff(inputDate, 'days');
+    const diffInWeeks = now.diff(inputDate, 'weeks');
+    const diffInMonths = now.diff(inputDate, 'months');
+    const diffInYears = now.diff(inputDate, 'years');
+    if (diffInSeconds == 0) {
+      return `1s`;
+    }
+  
+    if (diffInSeconds < 60) {
+      return `${diffInSeconds}s`;
+    }
+     else if (diffInMinutes < 60) {
+      return `${diffInMinutes}m`;
+    } else if (diffInHours < 24) {
+      return `${diffInHours}h ago`;
+    } else if (diffInDays === 1) {
+      return `1d`;
+    } else if (diffInDays < 7) {
+      return `${diffInDays}d`;
+    } else if (diffInWeeks < 4) {
+      return `${diffInWeeks}w`;
+    } else if (diffInMonths < 12) {
+      return `${diffInMonths}mo`;
+    } else {
+      return `${diffInYears}y`;
+    }
+  };
+
+  export const formatMessageTime = (date) => {
+    const now = moment();
+    const inputDate = moment(date);
+  
+    const diffInSeconds = now.diff(inputDate, 'seconds');
+    const diffInMinutes = now.diff(inputDate, 'minutes');
+    const diffInHours = now.diff(inputDate, 'hours');
+    const diffInDays = now.diff(inputDate, 'days');
+    const diffInWeeks = now.diff(inputDate, 'weeks');
+    const diffInMonths = now.diff(inputDate, 'months');
+    const diffInYears = now.diff(inputDate, 'years');
+    // if (diffInSeconds == 0) {
+    //   return `1s ago`;
+    // }
+  
+    // if (diffInSeconds < 60) {
+    //   return `${diffInSeconds}s ago`;
+    // }
+    //  else if (diffInMinutes < 60) {
+    //   return `${diffInMinutes}m ago`;
+    // }
+      if (diffInHours < 24) {
+      return inputDate.format("h:mm a");
+    } 
+
+                // text={moment(lastMessage?.created_at).format("h:mm a")}
 
     
+    else if (diffInDays === 1) {
+      return `1d ago`;
+    }
+     else if (diffInDays < 7) {
+      return `${diffInDays}d ago`;
+    } else if (diffInWeeks < 4) {
+      return `${diffInWeeks}w ago`;
+    } else if (diffInMonths < 12) {
+      return `${diffInMonths}mo ago`;
+    } else {
+      return `${diffInYears}y ago`;
+    }
+  };
 
-  }
-};
+  export const formatChannelDate = (date) => {
+    const now = moment();
+    const inputDate = moment(date);
+  
+    if (inputDate.isSame(now, 'day')) {
+      return inputDate.format('dddd MMMM DD');
+    } else if (inputDate.isSame(now.add(1, 'year'), 'day')) {
+      return inputDate.format('dddd MMMM DD YYY');
+    } else {
+      return inputDate.format('dddd MMMM DD');
+    }
+  };
+
+ export const calculateAgeString = (dateString:any) => {
+    let birthDate;
+    if (moment(dateString, 'MM/DD/YYYY', true).isValid()) {
+      birthDate = moment(dateString, 'MM/DD/YYYY');
+    } else if (moment(dateString, 'MM/DD/YY', true).isValid()) {
+      birthDate = moment(dateString, 'MM/DD/YY');
+    } else {
+      return null; // Invalid date format
+    }
+    const currentDate = moment();
+    return currentDate.diff(birthDate, 'years');
+  };
+
+ export const calculateAge = (birthday:any) => {
+    // Parse the birthday string into a Date object
+    console.log("AllBirthdat", typeof birthday)
+    const birthDate = new Date(birthday);
+    
+    // Get today's date
+    const today = new Date();
+  
+    // Calculate the difference in years
+    let age = today.getFullYear() - birthDate.getFullYear();
+  
+    // Adjust the age if the birthday hasn't occurred yet this year
+    const monthDifference = today.getMonth() - birthDate.getMonth();
+    const dayDifference = today.getDate() - birthDate.getDate();
+  
+    if (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)) {
+      age--;
+    }
+  
+    return age;
+  };
+  

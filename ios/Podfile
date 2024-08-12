@@ -41,10 +41,8 @@ if linkage != nil
   use_frameworks! :linkage => linkage.to_sym
 end
 
-target 'Loyalty' do
+target 'Status' do
   config = use_native_modules!
-  pod 'FirebaseCore', :modular_headers => true
-  pod 'FirebaseCoreInternal'
 
 
   use_react_native!(
@@ -52,10 +50,9 @@ target 'Loyalty' do
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
-  pod 'GoogleUtilities', :modular_headers => true;
 
 
-  target 'LoyaltyTests' do
+  target 'StatusTests' do
     inherit! :complete
     # Pods for testing
   end

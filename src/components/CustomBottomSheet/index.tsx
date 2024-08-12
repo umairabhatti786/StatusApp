@@ -7,16 +7,13 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
 } from "react-native-reanimated";
-import CustomText from "../CustomText";
-import { scale } from "react-native-size-matters";
-import { font } from "../../utils/font";
 import { colors } from "../../utils/colors";
-import QRCode from "react-native-qrcode-svg";
+
 
 const CustomBottomSheet = (props: any) => {
   const { bottomSheetModalRef, snapTo, onDismiss, children, snap,handleSheetChanges } = props;
 
-  const snapPoints = useMemo(() => ['48%', '95%'], []);
+  const snapPoints = useMemo(() => snapTo || ["60%"], []);
 
   useFocusEffect(
     useCallback(() => {
@@ -31,11 +28,12 @@ const CustomBottomSheet = (props: any) => {
     ref={bottomSheetModalRef}
     backdropComponent={(props) => <Backdrop {...props} bottomSheetModalRef={bottomSheetModalRef} />}
     snapPoints={snapPoints}
-    index={0}
+    backgroundStyle={{backgroundColor:colors.primary}}
     // style={{marginHorizontal:10}}
     onDismiss={props?.onDismiss}
     >
       <BottomSheetScrollView
+
         // contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
       >

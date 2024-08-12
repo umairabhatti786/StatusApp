@@ -1,415 +1,462 @@
-import { images } from "../../assets";
+import { images } from "../../assets/images";
 import { colors } from "../colors";
 
+export const LookingForData = [
+  "Chat",
+  "Dates",
+  "Friends",
+  "Networking",
+  "Hookups",
+  "Relationship",
+];
+export const RelationshipStatusData = [
+  {
+    id: 1,
+    label: "Undisclosed",
+    value: "Undisclosed",
+  },
+  {
+    id: 2,
+    label: "Single",
+    value: "Single",
+  },
 
-export const ActiveOrder = {
-    Pending: "0",
-    Accepted: "1",
-    pickUp: "2",
-    transit: "3",
-  };
+  {
+    id: 3,
+    label: "Committed",
+    value: "Committed",
+  },
 
-  export const PastOrder = {
-    Completed: "4",
-    Cancelled: "5",
-  };
+  {
+    id: 4,
+    label: "Dating",
+    value: "Dating",
+  },
 
-export const pickupData=[
-    "Delivery",
-    "Self-Pickup / Drive thru",
-    "Dine-In"
-]
+  {
+    id: 5,
+    label: "Divorced",
+    value: "Divorced",
+  },
 
-export const featureCardData = [
-    {
-        title: "Buy One Get One Free*",
-        time: "30 minutes",
-        delievery: "Free Deleivery",
-        rating: "3.4",
-        image: images.mask
-    },
-    {
-        title: "Buy One Get One Free***",
-        time: "40 minutes",
-        delievery: "Free Deleivery",
-        rating: "4.4",
-        image: images.mask
-    },
-    {
-        title: "Buy One Get One Free***",
-        time: "40 minutes",
-        delievery: "Free Deleivery",
-        rating: "4.4",
-        image: images.mask
-    },
-    {
-        title: "Buy One Get One Free***",
-        time: "40 minutes",
-        delievery: "Free Deleivery",
-        rating: "4.4",
-        image: images.mask
-    },
-    {
-        title: "Buy One Get One Free***",
-        time: "40 minutes",
-        delievery: "Free Deleivery",
-        rating: "4.4",
-        image: images.mask
-    },
-]
-export const homeBanner = [
-    {
-        title: "Lorem Ipsum",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum nec sem a elementum. Ut volutpat metus et metus condimentum...",
-        image: images.homeBanner1
-    },
-    {
-        title: "Lorem Ipsum",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum nec sem a elementum. Ut volutpat metus et metus condimentum...",
-        image: images.homeBanner2
-    },
-    {
-        title: "Lorem Ipsum",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum nec sem a elementum. Ut volutpat metus et metus condimentum...",
-        image: images.homeBanner1
-    },
-]
+  {
+    id: 6,
+    label: "Open Relationship",
+    value: "Open Relationship",
+  },
 
+  {
+    id: 7,
+    label: "Engaged",
+    value: "Engaged",
+  },
 
-export const orderDesitnationList=[
-   {
-        latitude: 31.559970380399194,
-        longitude: 74.3184922245439,
+  {
+    id: 8,
+    label: "Married",
+    value: "Married",
+  },
+  {
+    id: 9,
+    label: "Widowed",
+    value: "Widowed",
+  },
+];
+export const OrientationData = [
+  {
+    id: 1,
+    label: "Undisclosed",
+    value: "Undisclosed",
+  },
+  {
+    id: 2,
+    label: "Straight",
+    value: "Straight",
+  },
+
+  {
+    id: 3,
+    label: "Bisexual",
+    value: "Bisexual",
+  },
+  {
+    id: 4,
+    label: "Lesbian",
+    value: "Lesbian",
+  },
+  {
+    id: 5,
+    label: "Gay",
+    value: "Gay",
+  },
+];
+
+export const planedTaskList = [
+  {
+    date: "Sun, 10 Sep",
+    task: [
+      {
+        title: "Complete folder organisation",
+        complete: true,
+        status: "Work",
       },
-    
-     {
-        latitude: 31.549970380399194,
-        longitude: 74.3584922245439,
-        destination:true
-      }
-    ]
-
-export const storeList=[
-    {
-        latitude:31.527670380399194,
-        longitude:74.3484922245439
-
-    },
-   
-    {
-        latitude:31.529970380399194,
-        longitude:74.3484922245439
-
-    },
-
-    {
-        latitude:31.537670380399194,
-        longitude:74.3284922245439
-
-    },
-   
-    {
-        latitude:31.529970380399194,
-        longitude:74.3184922245439
-
-    },
-    {
-        latitude:31.549970380399194,
-        longitude:74.3584922245439
-
-    },
-   
-
-
-]
-export const currentPlan = {
-    name: "Golden",
-    description: [
-        "Lorem ipsum dolor sit amet",
-        "Lorem ipsum dolor sit amet ab ipsam reiciendis ut dolores mai",
-        "Lorem ipsum dolor sit amet"
+      {
+        title: "Manage project flowstate",
+        status: "Work",
+      },
+      {
+        title: "Send mail to Jeffrey",
+        status: "Work",
+      },
     ],
-    price: "20.7",
-    primaryColor: "#5833C5",
-    tintColor: colors.yellow,
-    descriptionColor: colors.white
-}
-export const plans = [
-    {
-        name: "Bronze",
-        description: [
-            "Lorem ipsum dolor sit amet",
-            "Lorem ipsum dolor sit amet ab ipsam reiciendis ut dolores mai",
-            "Lorem ipsum dolor sit amet"
-        ],
-        price: "12.25",
-        primaryColor: "#97B0F4",
-        tintColor: colors.lightBlack,
-        descriptionColor: colors.lightBlack,
-        upgrade:true
-    },
-    {
-        name: "Silver",
-        description: [
-            "Lorem ipsum dolor sit amet",
-            "Lorem ipsum dolor sit amet ab ipsam reiciendis ut dolores mai",
-            "Lorem ipsum dolor sit amet"
-        ],
-        price: "20.7",
-        primaryColor: "#3F49C8",
-        tintColor: colors.darkGrey,
-        descriptionColor: colors.darkGrey,
-        upgrade:true
+  },
+  {
+    date: "Mon, 11 Sep",
 
-    },
-    {
-        name: "Platinum",
-        description: [
-            "Lorem ipsum dolor sit amet",
-            "Lorem ipsum dolor sit amet ab ipsam reiciendis ut dolores mai",
-            "Lorem ipsum dolor sit amet"
-        ],
-        price: "20.7",
-        primaryColor: "#3E2096",
-        tintColor: colors.orange,
-        descriptionColor: colors.white,
-        upgrade:true
-    }
-]
-export const cartData = [
-    {
-        title: "Burger with fries",
-        addon: [
-            "No vegetables",
-            "Extra cheese"
-        ],
-        price: 29,
-        images: images.mask
-    },
-    {
-        title: "Vanilla Frappe",
-        addon: [
-            "White Sugar",
-        ],
-        price: 13,
-        images: images.mask
-    },
-]
-export const popularOrder = [
-    {
-        title: "Mega Combo",
-        description: "Lorem Ipsum",
-        price: 13,
-        image: images.mask
-    },
-    {
-        title: "Mega Combo",
-        description: "Lorem Ipsum",
-        price: 13,
-        image: images.burger
-    },
-    {
-        title: "Mega Combo",
-        description: "Lorem Ipsum",
-        price: 13,
-        image: images.icecream
-    },
-]
-
-
-export const notificationCardData = [
-    {
-        title: "Speeding your way",
-        description: "Lorem ipsum dolor sit amet ab ipsam reiciendis ut dolores mai",
-        image: images.shippingFast
-    },
-    {
-        title: "Order Delivered",
-        description: "Lorem ipsum dolor sit amet ab ipsam reiciendis ut dolores mai",
-        image: images.checkCircle
-    },
-    {
-        title: "Order Cancelled",
-        description: "Lorem ipsum dolor sit amet ab ipsam reiciendis ut dolores mai",
-        image: images.crossCircle
-    },
-    {
-        title: "Order Delivered",
-        description: "Lorem ipsum dolor sit amet ab ipsam reiciendis ut dolores mai",
-        image: images.checkCircle
-    },
-    {
-        title: "Order Delivered",
-        description: "Lorem ipsum dolor sit amet ab ipsam reiciendis ut dolores mai",
-        image: images.checkCircle
-    },
-]
-export const onBoardingData = [
-    {
-        title: "Browse through your favourite meals",
-        description: "Lorem ipsum dolor sit amet ab ipsam reiciendis ut dolores mai",
-        image: images.onBoarding1
-    },
-    {
-        title: "Select from multiple locations near you",
-        description: "Lorem ipsum dolor sit amet ab ipsam reiciendis ut dolores mai",
-        image: images.onBoarding2
-    },
-    {
-        title: "Unlock a variety of rewards",
-        description: "Lorem ipsum dolor sit amet ab ipsam reiciendis ut dolores mai",
-        image: images.onBoarding3
-    },
-]
-
-export const paymentsCards = [
-    {
-        title: "Apple Pay",
-        image: images.applePay
-    },
-  
-]
-export const OrderCards = [
-    {
-        title: "Lorem Ipsum",
-        subTitle: "Lorem ipsum, dolor sit.",
-        image: images.order1,
-        price: 12.25
-    },
-    {
-        title: "Lorem Ipsum",
-        subTitle: "Lorem ipsum, dolor sit.",
-        image: images.order1,
-        price: 12.25
-    },
-    {
-        title: "Lorem Ipsum",
-        subTitle: "Lorem ipsum, dolor sit.",
-        image: images.order1,
-        price: 12.25
-    },
-    {
-        title: "Lorem Ipsum",
-        subTitle: "Lorem ipsum, dolor sit.",
-        image: images.order1,
-        price: 12.25
-    },
-    {
-        title: "Lorem Ipsum",
-        subTitle: "Lorem ipsum, dolor sit.",
-        image: images.order1,
-        price: 12.25
-    },
-    {
-        title: "Lorem Ipsum",
-        subTitle: "Lorem ipsum, dolor sit.",
-        image: images.order1,
-        price: 12.25
-    },
-    {
-        title: "Lorem Ipsum",
-        subTitle: "Lorem ipsum, dolor sit.",
-        image: images.order1,
-        price: 12.25
-    },
-]
-export const rewardData = [
-    [
-        images.reward1,
-        images.reward2,
-        images.reward1,
+    task: [
+      {
+        title: "Complete folder organisation",
+        complete: true,
+        status: "Work",
+      },
+      {
+        title: "Manage project flowstate",
+        status: "Work",
+      },
+      {
+        title: "Send mail to Jeffrey",
+        status: "Work",
+      },
     ],
-    [
-        images.reward3,
-        images.reward4,
-        images.reward3,
-    ],
-    [
-        images.reward5,
-        images.reward6,
-        images.reward5,
-    ],
-]
-export const filterData = [
-  
-    {
-        title: "Cuisine",
-        category: [
-            {
-                id: 10,
-                name: "Chinese"
-            },
-            {
-                id: 11,
-                name: "Italian"
-            },
-            {
-                id: 12,
-                name: "Thai"
-            },
-            {
-                id: 13,
-                name: "Indian"
-            },
-            {
-                id: 14,
-                name: "Indonesian"
-            },
-            {
-                id: 15,
-                name: "American"
-            },
-            {
-                id: 16,
-                name: "Japanese"
-            },
-            {
-                id: 17,
-                name: "Mexican"
-            },
-        ]
-    },
+  },
 
-    {
-        title: "Category",
-        category: [
-            {
-                id: 1,
-                name: "Burger"
-            },
-            {
-                id: 2,
-                name: "Pizza"
-            },
-            {
-                id: 3,
-                name: "Pasta"
-            },
-            {
-                id: 4,
-                name: "Steak"
-            },
-            {
-                id: 5,
-                name: "Sandwich"
-            },
-            {
-                id: 6,
-                name: "Seafood"
-            },
-            {
-                id: 7,
-                name: "Salad"
-            },
-            {
-                id: 8,
-                name: "Dessert"
-            },
-            {
-                id: 9,
-                name: "Beverages"
-            },
-        ]
-    },
-    
-]
+  {
+    date: "Tue, 12 Sep",
+    task: [
+      {
+        title: "Complete folder organisation",
+        complete: true,
+        status: "Work",
+      },
+      {
+        title: "Manage project flowstate",
+        status: "Work",
+      },
+      {
+        title: "Send mail to Jeffrey",
+        status: "Work",
+      },
+    ],
+  },
+];
+
+export const toDoTaskList = [
+  {
+    status: "Ongoing",
+    task: [
+      {
+        title: "Complete folder organisation",
+        complete: true,
+        status: "Work",
+      },
+      {
+        title: "Manage project flowstate",
+        status: "Work",
+      },
+      {
+        title: "Send mail to Jeffrey",
+        status: "Work",
+      },
+    ],
+  },
+  {
+    status: "Completed",
+
+    task: [
+      {
+        title: "Daily meeting with team",
+        complete: true,
+        status: "Work",
+        boxColor: colors.purple,
+      },
+      {
+        title: "Pay rent",
+        status: "Household",
+        boxColor: colors.pink,
+      },
+      {
+        title: "Feed the dogs",
+        status: "Personal",
+        boxColor: colors.lightGreen,
+      },
+      {
+        title: "Go to the gym",
+        status: "Personal",
+        boxColor: colors.lightGreen,
+      },
+    ],
+  },
+];
+
+export const toDoPlannedTask = [
+  {
+    title: "Morning routine",
+    complete: true,
+    status: "Personal",
+    color: colors.lightGreen,
+  },
+  {
+    title: "Gym",
+    status: "Personal",
+    color: colors.lightGreen,
+  },
+  {
+    title: "Call John from Microsoft",
+    status: "Work",
+    color: colors.purple,
+  },
+
+  {
+    title: "Pick up kids from school",
+    status: "Household",
+    color: colors.pink,
+  },
+  {
+    title: "Duolingo lesson",
+    status: "Personal",
+    color: colors.lightGreen,
+  },
+];
+
+export const categoriesTaskList = [
+  { title: "Work", des: "6/10 tasks", color: colors.purple50 },
+  { title: "Personal", des: "9/12 tasks", color: colors.lightGreen50 },
+  { title: "Household", des: "7/14 tasks", color: colors.pink50 },
+];
+
+export const data = [
+  {
+    id: 1,
+    label: "All planned tasks",
+    value: "tasks",
+  },
+  {
+    id: 2,
+    label: "All planned tasks",
+    value: "All planned tasks",
+  },
+
+  {
+    id: 3,
+    label: "All planned tasks",
+    value: "All planned tasks",
+  },
+  {
+    id: 4,
+    label: "All planned tasks",
+    value: "All planned tasks",
+  },
+];
+
+export const messagesList = [
+  {
+    img: images.defimage12,
+    name: "Todd Mason",
+    message: "I will be free to talk in a few hours.",
+    time: "8:34 AM",
+    isOnline: true,
+    inBox: true,
+  },
+  {
+    img: images.defimage13,
+    name: "Lauren Connors",
+    message: "Typing...",
+    time: "8:34 AM",
+    favorite: true,
+    isOnline: true,
+  },
+  {
+    img: images.defimage17,
+    name: "Lauren Connors",
+    message: "Hey everyone. Status is great. Here is my view right now.",
+    time: "8:34 AM",
+    favorite: true,
+    isOnline: true,
+  },
+  {
+    img: images.defimage14,
+    name: "Lauren Connors",
+    message: "Hey everyone. Status is great. Here is my view right now.",
+    time: "8:34 AM",
+    count: "10",
+  },
+  {
+    img: images.defimage15,
+    name: "Lauren Connors",
+    message: "Hey everyone. Status is great. Here is my view right now.",
+    time: "8:34 AM",
+    count: "5",
+  },
+  {
+    img: images.defimage14,
+    name: "Lauren Connors",
+    message: "Hey everyone. Status is great. Here is my view right now.",
+    time: "8:34 AM",
+    count: "10",
+  },
+  {
+    img: images.defimage15,
+    name: "Lauren Connors",
+    message: "Hey everyone. Status is great. Here is my view right now.",
+    time: "8:34 AM",
+    count: "5",
+  },
+];
+
+export const messages = [
+  {
+    img: images.defimage100,
+    name: "Me",
+    message: "Todd you are a very nice person.",
+    time: "11:09 PM",
+  },
+  {
+    img: images.man5,
+    name: "Todd Mason",
+    message:
+      "Hi. I was wondering if you had any plans for tonight. I would love to take you to dinner. I know a great place in town we can have food and drinks. Are you interested?",
+    time: "2:05 PM",
+    chatDate: "Jan 12,2024",
+  },
+  {
+    img: images.defimage100,
+    name: "Me",
+    message: "Todd, I am very busy tonight. Sorry.",
+    time: "2:09 PM",
+  },
+  {
+    img: images.man5,
+    name: "Todd Mason",
+    message: "I understand. Do you have free time later on in the week? ",
+    time: "7:33 AM",
+    chatDate: "    Today    ",
+  },
+  {
+    img: images.defimage100,
+    name: "Me",
+    message: "We should talk on the phone first.\n 344-554-4432",
+    time: "9:55 AM",
+  },
+  {
+    img: images.man5,
+    name: "Todd Mason",
+    message: "Great. When are good times to call?",
+    time: "11:45 AM",
+  },
+  {
+    img: images.defimage100,
+    name: "Me",
+    message: "I will be free to talk in a few hours.",
+    time: "12:05 PM",
+  },
+];
+
+export const activityData = [
+  {
+    image: images.man2,
+    name: "Joe Rogan",
+    time: "2d ago",
+    comment: "Started following you.",
+    isShowFollow: true,
+  },
+  {
+    image: images.man2,
+    name: "Joe Rogan",
+    time: "2d ago",
+    comment: "Wrote on your wall.",
+    isShowFollow: false,
+  },
+  {
+    image: images.man5,
+    name: "Bobby D",
+    time: "3d ago",
+    comment: "Started following you.",
+    isShowFollow: true,
+  },
+  {
+    image: images.man5,
+    name: "Kimmy",
+    time: "3d ago",
+    comment: "Wrote on your wall.",
+    isShowFollow: false,
+  },
+];
+
+export const comments = [
+  {
+    img: images.man6,
+    name: "Mike O'Dea",
+    message: "Nice view. Where is that?",
+    time: "7:33 AM",
+    chatDate: "5 Comments",
+  },
+  {
+    img: images.man9,
+    name: "Lauren Connors",
+    message: "Thanks you.it's Rio!",
+    time: "8:09 AM",
+    edit: true,
+  },
+  {
+    img: images.man5,
+    name: "Todd Mason",
+    message:
+      "Looks great! I always wanted to go to Rio. It’s so beautiful there. Do you live there or vacationing?",
+    time: "9:33 AM",
+    chatDate: "Jan 12,2024",
+  },
+  {
+    img: images.man3,
+    name: "Lexi Reegan",
+    message: "Beautiful",
+    time: "7:55 AM",
+  },
+  {
+    img: images.man7,
+    name: "Laura Jessy",
+    message: "Great. When are good times to call?",
+    time: "11:45 AM",
+  },
+];
+
+export const statusComments = [
+  {
+    img: images.man9,
+    name: "Lauren Connors",
+    message: "Thanks you.it's Rio!",
+    time: "8:09 AM",
+    edit: true,
+    chatDate: "2 Comments",
+  },
+  {
+    img: images.man6,
+    name: "Mike O'Dea",
+    message: "Nice view. Where is that?",
+    time: "7:33 AM",
+  },
+];
+
+export const profileComments = [
+  {
+    img: images.defimage18,
+    name: "John Kennedy",
+    message: "Hey.Thanks for add.",
+    time: "7:33 AM",
+  },
+  {
+    img: images.defimage20,
+    name: "Mike O'Dea",
+    message: "Happy New Year!",
+    time: "JAN 13",
+  },
+];
